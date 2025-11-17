@@ -2,6 +2,8 @@ from kafka import KafkaProducer
 import json
 import time
 
+from transaction_gen import generate_transaction
+
 TOPIC_NAME = "credit-card-transactions"
 
 producer = KafkaProducer(
@@ -12,9 +14,18 @@ producer = KafkaProducer(
     ssl_keyfile="service.key",
 )
 
-for i in range(15):
-    transaction = generate_transaction()
-    producer.send(TOPIC_NAME, value=transaction)
-    time.sleep(1)
+try:
+	for i in range(100):
+    		transaction_dictionary = generate_transaction()
+    		transaction_bytes = json.dumps(transaction_dictionary).encode("utf-8")
+    		producer.send(TOPIC_NAME, value=transaction_bytes)
+	
+	producer.flush()
+	print("\nAll 100 messages sent successfully")
 
-producer.close()
+except Exception as e:
+	print("Error: {e}")
+
+finally:
+	producer.close()
+	print("Producer closed")

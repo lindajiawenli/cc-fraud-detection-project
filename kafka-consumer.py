@@ -1,5 +1,7 @@
 from kafka import KafkaConsumer
 
+from define_model import model
+
 TOPIC_NAME = "credit-card-transactions"
 
 consumer = KafkaConsumer(
