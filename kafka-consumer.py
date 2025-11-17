@@ -1,6 +1,17 @@
 from kafka import KafkaConsumer
 
-consumer = KafkaConsumer('transactions', bootstrap_servers=['localhost:9092'], auto_offset_reset='earliest', enable_auto_commit=True, group_id='my-group', value_deserializer=lambda x: json.loads(x.decode('utf-8')))
+TOPIC_NAME = "credit-card-transactions"
+
+consumer = KafkaConsumer(
+    TOPIC_NAME,
+    bootstrap_servers=f"credit-card-stream-linda-linda-enrichment.i.aivencloud.com:15287",
+    client_id = "CONSUMER_CLIENT_ID",
+    group_id = "CONSUMER_GROUP_ID",
+    security_protocol="SSL",
+    ssl_cafile="ca.pem",
+    ssl_certfile="service.cert",
+    ssl_keyfile="service.key",
+)
 
 for message in consumer:
     transaction = message.value
