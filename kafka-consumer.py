@@ -1,12 +1,15 @@
 from kafka import KafkaConsumer
-
 from define_model import model
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 TOPIC_NAME = "credit-card-transactions"
 
 consumer = KafkaConsumer(
     TOPIC_NAME,
-    bootstrap_servers=f"credit-card-stream-linda-linda-enrichment.i.aivencloud.com:15287",
+    bootstrap_servers=os.getenv("KAFKA_SERVICE_URI"),
     client_id = "CONSUMER_CLIENT_ID",
     group_id = "CONSUMER_GROUP_ID",
     security_protocol="SSL",
