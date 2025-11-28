@@ -1,3 +1,4 @@
 ca.pem
 service.key
 service.cert
+.env

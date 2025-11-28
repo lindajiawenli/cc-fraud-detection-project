@@ -1,13 +1,16 @@
 from kafka import KafkaProducer
 import json
 import time
+from dotenv import load_dotenv
+import os
 
 from transaction_gen import generate_transaction
+load_dotenv()
 
 TOPIC_NAME = "credit-card-transactions"
 
 producer = KafkaProducer(
-    bootstrap_servers=f"credit-card-stream-linda-linda-enrichment.i.aivencloud.com:15287",
+    bootstrap_servers=os.getenv("KAFKA_SERVICE_URI"),
     security_protocol="SSL",
     ssl_cafile="ca.pem",
     ssl_certfile="service.cert",
